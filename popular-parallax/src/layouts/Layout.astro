@@ -1,3 +1,7 @@
+---
+import Navigation from "../components/Navigation.svelte";
+---
+
 <!doctype html>
 <html lang="en">
   <head>
@@ -5,18 +9,40 @@
     <meta name="viewport" content="width=device-width" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="generator" content={Astro.generator} />
-    <title>Astro Basics</title>
+    <title>Astro Parallax</title>
+    <link rel="stylesheet" href="../styles/global.css" />
   </head>
   <body>
-    <slot />
+    <Navigation client:load />
+    <main class="min-h-screen">
+      <slot />
+    </main>
+    <footer class="bg-background border-t py-6">
+      <div
+        class="container flex flex-col items-center justify-between gap-4 md:flex-row"
+      >
+        <p class="text-center text-sm text-muted-foreground md:text-left">
+          &copy; {new Date().getFullYear()} Parallax. All rights reserved.
+        </p>
+      </div>
+    </footer>
   </body>
 </html>
 
-<style>
+<style is:global>
   html,
   body {
     margin: 0;
     width: 100%;
     height: 100%;
+  }
+
+  .container {
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    max-width: 80rem;
   }
 </style>
