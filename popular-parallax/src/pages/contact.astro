@@ -1,18 +1,12 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import ContactForm from "../components/ContactForm.svelte";
+import { db, Comment } from "astro:db";
+const comments = await db.select().from(Comment);
 ---
 
 <Layout>
   <div id="container">
-    <!-- Use a similar background effect as in Welcome.astro -->
-    <img
-      id="background"
-      src="../assets/background.svg"
-      alt=""
-      fetchpriority="high"
-    />
-
     <main>
       <section id="contact-hero">
         <div class="container py-12 md:py-16">
@@ -226,6 +220,20 @@ import ContactForm from "../components/ContactForm.svelte";
                 <ContactForm client:load />
               </div>
             </div>
+          </div>
+          <div
+            class="bg-card backdrop-blur-sm rounded-xl border shadow-lg overflow-hidden"
+          >
+            <h2>Comments</h2>
+            {
+              comments.map(({ name, email, message }) => (
+                <article>
+                  <p>Author: {name}</p>
+                  <p>{email}</p>
+                  <p>{message}</p>
+                </article>
+              ))
+            }
           </div>
         </div>
       </section>

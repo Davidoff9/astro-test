@@ -7,32 +7,29 @@
   let submitted = false;
   let isLoading = false;
 
-  function handleSubmit() {
-    // Validate form
+  async function handleSubmit() {
     if (!name || !email || !message) {
       alert("Please fill in all fields");
       return;
     }
-
     isLoading = true;
-
-    // Simulate API call
-    setTimeout(() => {
-      console.log({ name, email, message });
-
-      // Reset form
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name, email, message }),
+      });
+      if (!res.ok) throw new Error();
       name = "";
       email = "";
       message = "";
-
-      isLoading = false;
       submitted = true;
-
-      // Reset submitted state after 3 seconds
-      setTimeout(() => {
-        submitted = false;
-      }, 3000);
-    }, 1000);
+      setTimeout(() => (submitted = false), 3000);
+    } catch {
+      alert("Failed to send message. Please try again.");
+    } finally {
+      isLoading = false;
+    }
   }
 </script>
 
